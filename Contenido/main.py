@@ -1,18 +1,35 @@
 #Aqui importe constantes y personaje para mejor facilidad y manejo del codigo.
 
 import pygame
-import constantes
+import constantes as constantes
 from personaje import personaje
 
 #Inicializacion del personaje, ventana del juego y nombre.
-
-jugador = personaje(x=50, y=50)
 
 pygame.init()
 
 ventana = pygame.display.set_mode((constantes.ANCHO_VENTANA, constantes.ALTO_VENTANA))
 
 pygame.display.set_caption("SHOOT")
+
+#Escalando las imagenes para mostrar movimientos del jugador
+
+def escalar_img(image, scale):
+    w = image.get_width()
+    h = image.get_height()
+    nueva_imagen = pygame.transform.scale(image, (w*scale, h*scale))
+    return nueva_imagen
+
+animaciones = []
+for i in range (1, 8):
+    img = pygame.image.load(f"contenido/assets/imagenes/characters/player/player_{i}.png")
+    img = escalar_img(img, constantes.SCALA_PERSONAJE) 
+    animaciones.append(img)
+
+#Cargando imagen del jugador y ajustando tamaño
+
+jugador = personaje(50, 50, animaciones )
+
 
 #Definir las variables del movimiento, jugador.
 mover_derecha = False
@@ -51,6 +68,8 @@ while run == True:
 
     #Mover al jugador
     jugador.movimiento(delta_x, delta_y)
+    
+    jugador.update()
 
    
     jugador.dibujar(ventana)
