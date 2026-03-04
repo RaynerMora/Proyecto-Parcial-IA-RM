@@ -12,7 +12,7 @@ class personaje():
         #para almacenar hora en milisegundos desde se inicio pygame.
         self.update_time = pygame.time.get_ticks()
         self.image = animaciones[self.frame_index]
-        self.forma = pygame.Rect(0, 0, constantes.ANCHO_PERSONAJE, constantes.ALTO_PERSONAJE)
+        self.forma = self.image.get_rect()
        
         self.forma.center = (x,y)
 
