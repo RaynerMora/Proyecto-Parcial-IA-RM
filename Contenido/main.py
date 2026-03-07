@@ -34,6 +34,11 @@ for i in range (1, 8):
 imagen_pistola = pygame.image.load(f"Proyecto-Parcial-IA-RM/contenido/assets/imagenes/Armas/Arma.png")
 imagen_pistola = escalar_img(imagen_pistola, constantes.SCALA_ARMA)
 
+#Balas
+imagen_balas = pygame.image.load(f"Proyecto-Parcial-IA-RM/contenido/assets/imagenes/Armas/bala.png").convert_alpha()
+print(imagen_balas)
+imagen_balas = pygame.transform.scale(imagen_balas, constantes.SCALA_BALA)
+
 
 #Cargando imagen del jugador y ajustando tamaño
 
@@ -41,7 +46,10 @@ jugador = personaje(50, 50, animaciones )
 
 #Arma de la clase arma 
 
-pistola = arma(imagen_pistola)
+pistola = arma(imagen_pistola, imagen_balas)
+
+#Grupo de sprites
+grupo_balas = pygame.sprite.Group()
 
 
 #Definir las variables del movimiento, jugador.
@@ -85,13 +93,21 @@ while run == True:
     jugador.update()
 
     #Act, estado Arma
-    pistola.update(jugador)
+    bala = pistola.update(jugador)
+    if bala:
+        grupo_balas.add(bala)
+    for bala in grupo_balas:
+        bala.update()
 
+    #Dibujar al jugador
     jugador.dibujar(ventana)
 
     #Dibujar arma
     pistola.dibujar(ventana)
 
+    #Dibujar balas
+    for bala in grupo_balas:
+        bala.dibujar(ventana)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -121,7 +137,7 @@ while run == True:
             if event.key == pygame.K_s:
                 mover_abajo = False
 
-
+            
     pygame.display.update()
 
 pygame.quit()           
