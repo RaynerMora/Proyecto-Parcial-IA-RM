@@ -4,6 +4,27 @@ import pygame
 import constantes as constantes
 from personaje import personaje
 from arma import arma
+import os
+
+#Funciones:
+#Escalando las imagenes para mostrar movimientos del jugador
+
+def escalar_img(image, scale):
+    w = image.get_width()
+    h = image.get_height()
+    nueva_imagen = pygame.transform.scale(image, (w*scale, h*scale))
+    return nueva_imagen
+
+#F, contar elementos 
+def contar_elementos(directorio):
+    return len(os.listdir(directorio))
+
+
+#listar nombres de los elementos 
+def nombre_carpetas(directorio):
+    return os.listdir(directorio)
+
+
 
 #Inicializacion del personaje, ventana del juego y nombre.
 
@@ -13,29 +34,38 @@ ventana = pygame.display.set_mode((constantes.ANCHO_VENTANA, constantes.ALTO_VEN
 
 pygame.display.set_caption("SHOOT")
 
-#Escalando las imagenes para mostrar movimientos del jugador
-
-def escalar_img(image, scale):
-    w = image.get_width()
-    h = image.get_height()
-    nueva_imagen = pygame.transform.scale(image, (w*scale, h*scale))
-    return nueva_imagen
 
 #Importar imagenes
 #Personaje
 animaciones = []
 for i in range (1, 8):
-    img = pygame.image.load(f"Proyecto-Parcial-IA-RM/contenido/assets/imagenes/characters/player/player_{i}.png")
+    img = pygame.image.load(f"assets/imagenes/characters/player/player_{i}.png")
 
     img = escalar_img(img, constantes.SCALA_PERSONAJE) 
     animaciones.append(img)
 
+#Enemigos
+directorio_enemigos = "assets/imagenes/characters/enemigos"
+tipo_enemigos = nombre_carpetas(directorio_enemigos)
+animaciones_enemigos = []
+for eni in tipo_enemigos:
+    lista_temp = []
+    ruta_temp = f"assets/imagenes/characters/enemigos/{eni}"
+    num_animaciones = contar_elementos(ruta_temp)
+
+    for i in range(num_animaciones):
+        img_enemigo = pygame.image.load(f"{ruta_temp}//{eni}_{i+1}.png").convert_alpha()
+        img_enemigo = escalar_img(img_enemigo, constantes.SCALA_ENEMIGO)
+        lista_temp.append(img_enemigo)
+    animaciones_enemigos.append(lista_temp)
+
+
 #Arma
-imagen_pistola = pygame.image.load(f"Proyecto-Parcial-IA-RM/contenido/assets/imagenes/Armas/Arma.png")
+imagen_pistola = pygame.image.load(f"assets/imagenes/Armas/Arma.png")
 imagen_pistola = escalar_img(imagen_pistola, constantes.SCALA_ARMA)
 
 #Balas
-imagen_balas = pygame.image.load(f"Proyecto-Parcial-IA-RM/contenido/assets/imagenes/Armas/bala.png").convert_alpha()
+imagen_balas = pygame.image.load(f"assets/imagenes/Armas/bala.png").convert_alpha()
 print(imagen_balas)
 imagen_balas = pygame.transform.scale(imagen_balas, constantes.SCALA_BALA)
 
@@ -43,6 +73,18 @@ imagen_balas = pygame.transform.scale(imagen_balas, constantes.SCALA_BALA)
 #Cargando imagen del jugador y ajustando tamaño
 
 jugador = personaje(50, 50, animaciones )
+
+#Enemigo clase personaje
+
+guardian = personaje(400, 300, animaciones_enemigos[0])
+
+guardian_esqueleto = personaje(200, 200, animaciones_enemigos[1])
+
+#Lista de Enemigos
+lista_enemigos = []
+lista_enemigos.append(guardian)
+lista_enemigos.append(guardian_esqueleto)
+print(lista_enemigos)
 
 #Arma de la clase arma 
 
@@ -92,6 +134,10 @@ while run == True:
     #Act, estado del jugador
     jugador.update()
 
+    #Act, estado enemigos
+    for ene in lista_enemigos:
+        ene.update()
+
     #Act, estado Arma
     bala = pistola.update(jugador)
     if bala:
@@ -101,6 +147,10 @@ while run == True:
 
     #Dibujar al jugador
     jugador.dibujar(ventana)
+
+    #Dibujar al enemigo
+    for ene in lista_enemigos:
+        ene.dibujar(ventana)
 
     #Dibujar arma
     pistola.dibujar(ventana)
