@@ -4,6 +4,7 @@ import pygame
 import constantes as constantes
 from personaje import personaje
 from arma import arma
+from text_daño import Damagetext
 import os
 
 #Funciones:
@@ -33,6 +34,9 @@ pygame.init()
 ventana = pygame.display.set_mode((constantes.ANCHO_VENTANA, constantes.ALTO_VENTANA))
 
 pygame.display.set_caption("SHOOT")
+
+#Fuentes
+fuentes = pygame.font.Font("assets/fonts/ThaleahFat.ttf", size=25)
 
 
 #Importar imagenes
@@ -91,7 +95,9 @@ print(lista_enemigos)
 pistola = arma(imagen_pistola, imagen_balas)
 
 #Grupo de sprites
+grupo_damage_text = pygame.sprite.Group()
 grupo_balas = pygame.sprite.Group()
+
 
 
 #Definir las variables del movimiento, jugador.
@@ -144,7 +150,14 @@ while run == True:
     if bala:
         grupo_balas.add(bala)
     for bala in grupo_balas:
-        bala.update(lista_enemigos)
+        damage, pos_damage= bala.update(lista_enemigos)
+        if damage:
+           damage_text = Damagetext(pos_damage.centerx,pos_damage.centery, str(damage), fuentes, constantes.ROJO)
+           grupo_damage_text.add(damage_text)
+
+    #Act daño
+
+    grupo_damage_text.update()
 
     #Dibujar al jugador
     jugador.dibujar(ventana)
@@ -159,6 +172,9 @@ while run == True:
     #Dibujar balas
     for bala in grupo_balas:
         bala.dibujar(ventana)
+    
+    #dibujar texto_daño
+    grupo_damage_text.draw(ventana)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
