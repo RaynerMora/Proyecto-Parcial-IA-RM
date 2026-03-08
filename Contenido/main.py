@@ -72,13 +72,13 @@ imagen_balas = pygame.transform.scale(imagen_balas, constantes.SCALA_BALA)
 
 #Cargando imagen del jugador y ajustando tamaño
 
-jugador = personaje(50, 50, animaciones )
+jugador = personaje(50, 50, animaciones, energia = 100)
 
 #Enemigo clase personaje
 
-guardian = personaje(400, 300, animaciones_enemigos[0])
+guardian = personaje(400, 300, animaciones_enemigos[0], energia=100)
 
-guardian_esqueleto = personaje(200, 200, animaciones_enemigos[1])
+guardian_esqueleto = personaje(200, 200, animaciones_enemigos[1],energia=100)
 
 #Lista de Enemigos
 lista_enemigos = []
@@ -137,13 +137,14 @@ while run == True:
     #Act, estado enemigos
     for ene in lista_enemigos:
         ene.update()
+        print(ene.energia)
 
     #Act, estado Arma
     bala = pistola.update(jugador)
     if bala:
         grupo_balas.add(bala)
     for bala in grupo_balas:
-        bala.update()
+        bala.update(lista_enemigos)
 
     #Dibujar al jugador
     jugador.dibujar(ventana)
