@@ -9,9 +9,22 @@ class Item(pygame.sprite.Sprite):
         self.update_time = pygame.time.get_ticks()
         self.image = self.animaciones_list[self.frame_index]
         self.rect = self.image.get_rect()
-        self.rect = (x,y)
+        self.rect.center = (x,y)
 
-    def update(self):
+    def update(self, personaje):
+        #Colosion entre personaje y los items
+        if self.rect.colliderect(personaje.forma):
+            #monedas
+            if self.item_type == 0:
+                personaje.score +=1
+            #pocion
+            elif self.item_type == 1:
+                personaje.energia +=50
+                if personaje.energia > 100:
+                    personaje.energia = 100
+            self.kill()
+
+
         cooldowm_animacion = 150 
         self.image = self.animaciones_list[self.frame_index]
 

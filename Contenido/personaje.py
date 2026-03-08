@@ -4,6 +4,7 @@ import constantes as constantes
 class personaje():
 
     def __init__(self, x, y, animaciones, energia):
+        self.score = 0
         self.energia = energia
         self.vivo = True
         self.flip = False

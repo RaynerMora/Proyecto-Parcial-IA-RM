@@ -96,6 +96,11 @@ for i in range(num_moneda_img):
     img = escalar_img(img, scale=1)
     monedas_images.append(img)
 
+def dibujar_score(texto, fuente, color, x, y):
+    img = fuente.render(texto, True, color)
+    ventana.blit(img, (x,y))
+
+
 
 #Vida jugador
 def vida_jugador():
@@ -201,7 +206,7 @@ while run == True:
     grupo_damage_text.update()
 
     #ACTUALIZAR items
-    grupo_items.update()
+    grupo_items.update(jugador)
 
     #Dibujar al jugador
     jugador.dibujar(ventana)
@@ -223,6 +228,7 @@ while run == True:
     
     #dibujar texto_daño
     grupo_damage_text.draw(ventana)
+    dibujar_score(f"Score: {jugador.score}", fuentes, color=(255,255,0), x=700, y=5)
 
     #Dibujar los items en pantalla
     grupo_items.draw(ventana)
