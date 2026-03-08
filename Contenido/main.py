@@ -40,6 +40,16 @@ fuentes = pygame.font.Font("assets/fonts/ThaleahFat.ttf", size=25)
 
 
 #Importar imagenes
+#Energia
+vida_vacia = pygame.image.load("assets/imagenes/items/dead.png").convert_alpha()
+vida_vacia = escalar_img(vida_vacia, constantes.SCALA_VIDA)
+
+vida_half = pygame.image.load("assets/imagenes/items/half_live.png").convert_alpha()
+vida_half = escalar_img(vida_half, constantes.SCALA_VIDA)
+
+vida_llena = pygame.image.load("assets/imagenes/items/full_live.png").convert_alpha()
+vida_llena = escalar_img(vida_llena, constantes.SCALA_VIDA)
+
 #Personaje
 animaciones = []
 for i in range (1, 8):
@@ -73,10 +83,22 @@ imagen_balas = pygame.image.load(f"assets/imagenes/Armas/bala.png").convert_alph
 print(imagen_balas)
 imagen_balas = pygame.transform.scale(imagen_balas, constantes.SCALA_BALA)
 
+#Vida jugador
+def vida_jugador():
+    v_mitad_dibujado = False
+    for i in range(5):
+        if jugador.energia >= ((i+1)*20):
+            ventana.blit(vida_llena, dest=(5+i*50, 5))
+        elif jugador.energia % 20 > 0 and v_mitad_dibujado == False:
+            ventana.blit(vida_half, dest=(5+i*50, 5))
+            v_mitad_dibujado = True
+        else:
+            ventana.blit(vida_vacia, dest=(5 + i * 50, 5))
+
 
 #Cargando imagen del jugador y ajustando tamaño
 
-jugador = personaje(50, 50, animaciones, energia = 100)
+jugador = personaje(50, 50, animaciones, energia = 20)
 
 #Enemigo clase personaje
 
@@ -172,6 +194,10 @@ while run == True:
     #Dibujar balas
     for bala in grupo_balas:
         bala.dibujar(ventana)
+
+
+    #Dibujar vida
+    vida_jugador()
     
     #dibujar texto_daño
     grupo_damage_text.draw(ventana)
