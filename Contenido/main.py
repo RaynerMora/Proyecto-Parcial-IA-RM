@@ -38,6 +38,11 @@ ventana = pygame.display.set_mode((constantes.ANCHO_VENTANA, constantes.ALTO_VEN
 
 pygame.display.set_caption("SHOOT")
 
+#Variables
+posicion_pantalla = [0,0]
+
+
+
 #Fuentes
 fuentes = pygame.font.Font("assets/fonts/ThaleahFat.ttf", size=25)
 
@@ -133,8 +138,6 @@ with open("niveles/nivel_test.csv", newline="") as csvfile:
           for x, fila in enumerate(reader):
               for y, columna in enumerate(fila):
                   world_data[x][y] = int(columna)
-print(fila)
-
 
 
 
@@ -153,19 +156,19 @@ def dibujar_grid():
 
 #Cargando imagen del jugador y ajustando tamaño
 
-jugador = personaje(50, 50, animaciones, energia = 20)
+jugador = personaje(50, 50, animaciones, energia = 20, tipo=1)
 
 #Enemigo clase personaje
 
-guardian = personaje(400, 300, animaciones_enemigos[0], energia=100)
+guardian = personaje(400, 300, animaciones_enemigos[0], energia=100, tipo=2)
 
-guardian_esqueleto = personaje(200, 200, animaciones_enemigos[1],energia=100)
+guardian_esqueleto = personaje(200, 200, animaciones_enemigos[1],energia=100, tipo=2)
 
 #Lista de Enemigos
 lista_enemigos = []
 lista_enemigos.append(guardian)
 lista_enemigos.append(guardian_esqueleto)
-print(lista_enemigos)
+
 
 #Arma de la clase arma 
 
@@ -214,10 +217,14 @@ while run == True:
         delta_y = -constantes.VELOCIDAD
     if mover_abajo == True:
         delta_y = constantes.VELOCIDAD
-    print(f"{delta_x},{delta_y}")
+   
 
     #Mover al jugador
-    jugador.movimiento(delta_x, delta_y)
+    posicion_pantalla = jugador.movimiento(delta_x, delta_y)
+
+    #ACT, MAPA
+    word.update(posicion_pantalla)
+   
 
     #Act, estado del jugador
     jugador.update()
@@ -225,7 +232,7 @@ while run == True:
     #Act, estado enemigos
     for ene in lista_enemigos:
         ene.update()
-        print(ene.energia)
+        
 
     #Act, estado Arma
     bala = pistola.update(jugador)

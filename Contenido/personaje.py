@@ -3,7 +3,7 @@ import constantes as constantes
 
 class personaje():
 
-    def __init__(self, x, y, animaciones, energia):
+    def __init__(self, x, y, animaciones, energia, tipo):
         self.score = 0
         self.energia = energia
         self.vivo = True
@@ -16,10 +16,12 @@ class personaje():
         self.update_time = pygame.time.get_ticks()
         self.image = animaciones[self.frame_index]
         self.forma = self.image.get_rect()
-       
         self.forma.center = (x,y)
+        self.tipo = tipo
+
 
     def movimiento(self, delta_x, delta_y ):
+        posicion_pantalla = [0, 0]
         if delta_x < 0:
             self.flip = True
         elif delta_x > 0:
@@ -27,6 +29,33 @@ class personaje():
 
         self.forma.x = self.forma.x + delta_x
         self.forma.y = self.forma.y + delta_y
+
+        #Logica solo jugador no enemigos
+        if self.tipo == 1:
+            #actulizar pantalla segun posicion
+            #mover la camara izquierda o derecha
+            if self.forma.right > (constantes.ANCHO_VENTANA - constantes.LIMITE_PANTALLA):
+                posicion_pantalla[0] = (constantes.ANCHO_VENTANA - constantes.LIMITE_PANTALLA) - self.forma.right
+
+                self.forma.right = constantes.ANCHO_VENTANA - constantes.LIMITE_PANTALLA
+
+            if self.forma.left < constantes.LIMITE_PANTALLA:
+                posicion_pantalla[0] = constantes.LIMITE_PANTALLA - self.forma.left
+
+                self.forma.left = constantes.LIMITE_PANTALLA
+            
+            #mover la camara arriba o abajo
+
+            if self.forma.bottom > (constantes.ALTO_VENTANA - constantes.LIMITE_PANTALLA):
+                posicion_pantalla[1] = (constantes.ALTO_VENTANA - constantes.LIMITE_PANTALLA) - self.forma.bottom
+
+                self.forma.bottom = constantes.ALTO_VENTANA - constantes.LIMITE_PANTALLA
+
+            if self.forma.top < constantes.LIMITE_PANTALLA:
+                posicion_pantalla[1] = constantes.LIMITE_PANTALLA - self.forma.top
+
+                self.forma.top = constantes.LIMITE_PANTALLA
+            return posicion_pantalla
 
     def update(self):
         #Comprobar si personaje a muerto
