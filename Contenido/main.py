@@ -39,7 +39,8 @@ ventana = pygame.display.set_mode((constantes.ANCHO_VENTANA, constantes.ALTO_VEN
 pygame.display.set_caption("SHOOT")
 
 #Variables
-posicion_pantalla = [0,0]
+posicion_pantalla = [0, 0]
+nivel = 1
 
 
 
@@ -110,6 +111,8 @@ for i in range(num_moneda_img):
     img = escalar_img(img, scale=1)
     monedas_images.append(img)
 
+item_imagenes = [monedas_images, [pocion_roja]] 
+
 def dibujar_score(texto, fuente, color, x, y):
     img = fuente.render(texto, True, color)
     ventana.blit(img, (x,y))
@@ -142,7 +145,7 @@ with open("niveles/nivel_test.csv", newline="") as csvfile:
 
 
 word = Mundo()
-word.process_data(world_data, tile_list)
+word.process_data(world_data, tile_list, item_imagenes)
 
 
 
@@ -178,6 +181,10 @@ pistola = arma(imagen_pistola, imagen_balas)
 grupo_damage_text = pygame.sprite.Group()
 grupo_balas = pygame.sprite.Group()
 grupo_items = pygame.sprite.Group()
+
+#añadir items desde la data del nivel
+for item in word.lista_item:
+    grupo_items.add(item)
 
 moneda = Item(350, 25, 0, monedas_images)
 pocion_roja = Item(380, 55, 1, [pocion_roja])
@@ -276,6 +283,9 @@ while run == True:
     #dibujar texto_daño
     grupo_damage_text.draw(ventana)
     dibujar_score(f"Score: {jugador.score}", fuentes, color=(255,255,0), x=700, y=5)
+
+    #nivel
+    dibujar_score(f"Nivel:" + str(nivel), fuentes, constantes.AMARILLO, constantes.ANCHO_VENTANA / 2, y=5 )
 
     #Dibujar los items en pantalla
     grupo_items.draw(ventana)
