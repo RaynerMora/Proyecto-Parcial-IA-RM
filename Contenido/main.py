@@ -145,7 +145,7 @@ with open("niveles/nivel_test.csv", newline="") as csvfile:
 
 
 word = Mundo()
-word.process_data(world_data, tile_list, item_imagenes)
+word.process_data(world_data, tile_list, item_imagenes, animaciones_enemigos)
 
 
 
@@ -161,16 +161,11 @@ def dibujar_grid():
 
 jugador = personaje(50, 50, animaciones, energia = 20, tipo=1)
 
-#Enemigo clase personaje
-
-guardian = personaje(400, 300, animaciones_enemigos[0], energia=100, tipo=2)
-
-guardian_esqueleto = personaje(200, 200, animaciones_enemigos[1],energia=100, tipo=2)
 
 #Lista de Enemigos
 lista_enemigos = []
-lista_enemigos.append(guardian)
-lista_enemigos.append(guardian_esqueleto)
+for ene in word.lista_enemigo:
+    lista_enemigos.append(ene)
 
 
 #Arma de la clase arma 
