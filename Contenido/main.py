@@ -6,7 +6,9 @@ from personaje import personaje
 from arma import arma
 from text_daño import Damagetext
 from items import Item
+from mundo import Mundo
 import os
+import csv
 
 #Funciones:
 #Escalando las imagenes para mostrar movimientos del jugador
@@ -84,6 +86,13 @@ imagen_balas = pygame.image.load(f"assets/imagenes/Armas/bala.png").convert_alph
 print(imagen_balas)
 imagen_balas = pygame.transform.scale(imagen_balas, constantes.SCALA_BALA)
 
+#IMG del MUNDO
+tile_list = []
+for x in range(constantes.TILE_TYPES):
+    tile_image = pygame.image.load(f"assets/imagenes/tiles/tile ({x+1}).png")
+    tile_image = pygame.transform.scale(tile_image, size=(constantes.TITLE_SIZE, constantes.TITLE_SIZE))
+    tile_list.append(tile_image)
+
 #CARGAR IMAGENES DE LOS ITEMS
 pocion_roja = pygame.image.load("assets/imagenes/items/pocion_vida.png")
 pocion_roja = escalar_img(pocion_roja, scale=0.5)
@@ -100,8 +109,6 @@ def dibujar_score(texto, fuente, color, x, y):
     img = fuente.render(texto, True, color)
     ventana.blit(img, (x,y))
 
-
-
 #Vida jugador
 def vida_jugador():
     v_mitad_dibujado = False
@@ -113,6 +120,35 @@ def vida_jugador():
             v_mitad_dibujado = True
         else:
             ventana.blit(vida_vacia, dest=(5 + i * 50, 5))
+
+world_data = []
+
+for fila in range(constantes.FILAS):
+    filas = [7] * constantes.COLUMNAS
+    world_data.append(filas)
+
+#Cargar archivo con el nivel
+with open("niveles/nivel_test.csv", newline="") as csvfile:
+          reader = csv.reader(csvfile, delimiter=",")
+          for x, fila in enumerate(reader):
+              for y, columna in enumerate(fila):
+                  world_data[x][y] = int(columna)
+print(fila)
+
+
+
+
+word = Mundo()
+word.process_data(world_data, tile_list)
+
+
+
+def dibujar_grid():
+    for x in range(30):
+        pygame.draw.line(ventana, constantes.BLANCO, start_pos=(x*constantes.TITLE_SIZE, 0), end_pos=(x*constantes.TITLE_SIZE, constantes.ALTO_VENTANA)) 
+
+        pygame.draw.line(ventana, constantes.BLANCO, start_pos=(0, x * constantes.TITLE_SIZE), end_pos=(constantes.ANCHO_VENTANA, x * constantes.TITLE_SIZE)) 
+
 
 
 #Cargando imagen del jugador y ajustando tamaño
@@ -161,9 +197,9 @@ while run == True:
 
     #Especificar la velocidad
     reloj.tick(constantes.FPS)
-
-    
     ventana.fill(constantes.COLOR_FONDO)
+
+    dibujar_grid()
 
     #Calcular movimiento del jugador.
 
@@ -207,6 +243,9 @@ while run == True:
 
     #ACTUALIZAR items
     grupo_items.update(jugador)
+
+    #dibujar mundo
+    word.draw(ventana)
 
     #Dibujar al jugador
     jugador.dibujar(ventana)
