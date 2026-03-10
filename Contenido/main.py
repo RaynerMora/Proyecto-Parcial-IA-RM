@@ -1,5 +1,3 @@
-#Aqui importe constantes y personaje para mejor facilidad y manejo del codigo.
-
 import pygame
 import constantes as constantes
 from personaje import personaje
@@ -222,7 +220,7 @@ while run == True:
    
 
     #Mover al jugador
-    posicion_pantalla = jugador.movimiento(delta_x, delta_y)
+    posicion_pantalla = jugador.movimiento(delta_x, delta_y, word.obstaculos_tiles)
 
     #ACT, MAPA
     word.update(posicion_pantalla)
@@ -261,8 +259,12 @@ while run == True:
 
     #Dibujar al enemigo
     for ene in lista_enemigos:
-        ene.enemigos(posicion_pantalla)
-        ene.dibujar(ventana)
+        if ene.energia == 0:
+            lista_enemigos.remove(ene)
+
+        if ene.energia > 0:
+            ene.enemigos(jugador, word.obstaculos_tiles, posicion_pantalla)
+            ene.dibujar(ventana)
 
     #Dibujar arma
     pistola.dibujar(ventana)

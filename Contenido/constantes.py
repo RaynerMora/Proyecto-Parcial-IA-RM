@@ -1,9 +1,9 @@
 # Este archivo contiene las constantes utilizadas en el juego, como el tamaño de la ventana, el tamaño del personaje su color y demas caracteres añadidas. Esto permite una fácil modificación de estos valores sin tener que buscar en todo el código.
 
 #TAMAÑOS Y ESCALAS
-ANCHO_VENTANA = 800
+ANCHO_VENTANA = 1000
 
-ALTO_VENTANA = 600
+ALTO_VENTANA = 800
 
 #ANCHO_PERSONAJE = 20
 
@@ -19,15 +19,15 @@ SCALA_ENEMIGO = 0.1
 
 SCALA_VIDA = 0.1
 
-TITLE_SIZE = 50
+TITLE_SIZE = 45
 
 TILE_TYPES = 100
 
 FILAS = 32
 
-COLUMNAS = 40
+COLUMNAS = 48
 
-LIMITE_PANTALLA = 150
+LIMITE_PANTALLA = 0
 #COLORES
 COLOR_PERSONAJE = (255, 255, 0)
 
@@ -43,6 +43,12 @@ FPS = 60
 
 VELOCIDAD = 5
 
+VELOCIDAD_ENEMIGO = 3
+
 VELOCIDAD_BALA = 20
 
 COOLDOWN_BALAS = 900
+
+RANGO = 200
+
+RANGO_ATAQUE = 20

@@ -2,7 +2,7 @@ import constantes
 from items import Item
 from personaje import personaje
 
-obstaculos = [0, 1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 66, 67, 36, 37]
+obstaculos = [1, 2, 3, 4, 5, 6, 11, 16, 21, 26, 31, 36, 41, 42, 43, 44, 45, 46, 51, 52, 53, 54, 55, 56, 67, 68]
 
 class Mundo():
     def __init__(self):
@@ -24,7 +24,7 @@ class Mundo():
                 tile_data = [image, image_rect, image_x, image_y]
 
                 #Agregar tiles a obstaculos
-                if tile in obstaculos:
+                if tile in self.obstaculos_tiles:
                     self.obstaculos_tiles.append(tile_data)
 
                 #tile salida
@@ -54,9 +54,7 @@ class Mundo():
                     guardian_esqueleto = personaje(image_x, image_y, animacion_enemigos[1], 200, 2)
                     self.lista_enemigo.append(guardian_esqueleto)
                     tile_data[0] = tile_list[23]
-
-                self.map_tiles.append(tile_data)
-
+                    self.map_tiles.append(tile_data)
 
 
     def update(self, posicion_pantalla):
