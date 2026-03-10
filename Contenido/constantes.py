@@ -4,9 +4,9 @@
 # Este archivo contiene las constantes utilizadas en el juego, como el tamaño de la ventana, el tamaño del personaje su color y demas caracteres añadidas. Esto permite una fácil modificación de estos valores sin tener que buscar en todo el código.
 
 #TAMAÑOS Y ESCALAS
-ANCHO_VENTANA = 1000
+ANCHO_VENTANA = 1920
 
-ALTO_VENTANA = 800
+ALTO_VENTANA = 1080
 
 #ANCHO_PERSONAJE = 20
 
