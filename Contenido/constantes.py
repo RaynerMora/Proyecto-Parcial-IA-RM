@@ -1,3 +1,6 @@
+# NOMBRE: Rayner Alexander Mora
+# MATRICULA: 24-EISN-2-004
+
 # Este archivo contiene las constantes utilizadas en el juego, como el tamaño de la ventana, el tamaño del personaje su color y demas caracteres añadidas. Esto permite una fácil modificación de estos valores sin tener que buscar en todo el código.
 
 #TAMAÑOS Y ESCALAS
@@ -38,6 +41,8 @@ ROJO = (203, 50, 52)
 BLANCO = (255, 255, 255)
 
 AMARILLO = (255,255,0)
+
+ROJO_OSCURO = (139, 0, 0)
 #VARIOS
 FPS = 60
 
@@ -52,3 +57,4 @@ COOLDOWN_BALAS = 900
 RANGO = 200
 
 RANGO_ATAQUE = 20
+

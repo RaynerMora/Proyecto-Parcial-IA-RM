@@ -1,3 +1,6 @@
+# NOMBRE: Rayner Alexander Mora
+# MATRICULA: 24-EISN-2-004
+
 import pygame
 import math
 import constantes

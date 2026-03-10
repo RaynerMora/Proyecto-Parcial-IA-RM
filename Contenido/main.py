@@ -1,3 +1,10 @@
+# NOMBRE: Rayner Alexander Mora
+# MATRICULA: 24-EISN-2-004
+
+
+
+
+
 import pygame
 import constantes as constantes
 from personaje import personaje
@@ -202,94 +209,97 @@ while run == True:
     reloj.tick(constantes.FPS)
     ventana.fill(constantes.COLOR_FONDO)
 
-    dibujar_grid()
-
-    #Calcular movimiento del jugador.
-
-    delta_x = 0
-    delta_y = 0
-
-    if mover_derecha == True:
-        delta_x = constantes.VELOCIDAD
-    if mover_izquierda == True:
-        delta_x = -constantes.VELOCIDAD
-    if mover_arriba == True:
-        delta_y = -constantes.VELOCIDAD
-    if mover_abajo == True:
-        delta_y = constantes.VELOCIDAD
-   
-
-    #Mover al jugador
-    posicion_pantalla = jugador.movimiento(delta_x, delta_y, word.obstaculos_tiles)
-
-    #ACT, MAPA
-    word.update(posicion_pantalla)
-   
-
-    #Act, estado del jugador
-    jugador.update()
-
-    #Act, estado enemigos
-    for ene in lista_enemigos:
-        ene.update()
-        
-
-    #Act, estado Arma
-    bala = pistola.update(jugador)
-    if bala:
-        grupo_balas.add(bala)
-    for bala in grupo_balas:
-        damage, pos_damage= bala.update(lista_enemigos)
-        if damage:
-           damage_text = Damagetext(pos_damage.centerx,pos_damage.centery, str(damage), fuentes, constantes.ROJO)
-           grupo_damage_text.add(damage_text)
-
-    #Act daño
-
-    grupo_damage_text.update()
-
-    #ACTUALIZAR items
-    grupo_items.update(posicion_pantalla, jugador)
-
-    #dibujar mundo
-    word.draw(ventana)
-
-    #Dibujar al jugador
-    jugador.dibujar(ventana)
-
-    #Dibujar al enemigo
-    for ene in lista_enemigos:
-        if ene.energia == 0:
-            lista_enemigos.remove(ene)
-
-        if ene.energia > 0:
-            ene.enemigos(jugador, word.obstaculos_tiles, posicion_pantalla)
-            ene.dibujar(ventana)
-
-    #Dibujar arma
-    pistola.dibujar(ventana)
-
-    #Dibujar balas
-    for bala in grupo_balas:
-        bala.dibujar(ventana)
+    if jugador.vivo == True: 
 
 
-    #Dibujar vida
-    vida_jugador()
+
+
+        dibujar_grid()
+        #Calcular movimiento del jugador.
+
+        delta_x = 0
+        delta_y = 0
+
+        if mover_derecha == True:
+            delta_x = constantes.VELOCIDAD
+        if mover_izquierda == True:
+            delta_x = -constantes.VELOCIDAD
+        if mover_arriba == True:
+            delta_y = -constantes.VELOCIDAD
+        if mover_abajo == True:
+            delta_y = constantes.VELOCIDAD
     
-    #dibujar texto_daño
-    grupo_damage_text.draw(ventana)
-    dibujar_score(f"Score: {jugador.score}", fuentes, color=(255,255,0), x=700, y=5)
 
-    #nivel
-    dibujar_score(f"Nivel:" + str(nivel), fuentes, constantes.AMARILLO, constantes.ANCHO_VENTANA / 2, y=5 )
+        #Mover al jugador
+        posicion_pantalla = jugador.movimiento(delta_x, delta_y, word.obstaculos_tiles)
+
+        #ACT, MAPA
+        word.update(posicion_pantalla)
+    
+
+        #Act, estado del jugador
+        jugador.update()
+
+        #Act, estado enemigos
+        for ene in lista_enemigos:
+            ene.update()
+            
+
+        #Act, estado Arma
+        bala = pistola.update(jugador)
+        if bala:
+            grupo_balas.add(bala)
+        for bala in grupo_balas:
+            damage, pos_damage= bala.update(lista_enemigos)
+            if damage:
+                damage_text = Damagetext(pos_damage.centerx,pos_damage.centery, str(damage), fuentes, constantes.ROJO)
+                grupo_damage_text.add(damage_text)
+
+        #Act daño
+
+        grupo_damage_text.update()
+
+        #ACTUALIZAR items
+        grupo_items.update(posicion_pantalla, jugador)
+
+        #dibujar mundo
+        word.draw(ventana)
+
+        #Dibujar al jugador
+        jugador.dibujar(ventana)
+
+        #Dibujar al enemigo
+        for ene in lista_enemigos:
+            if ene.energia == 0:
+                lista_enemigos.remove(ene)
+
+            if ene.energia > 0:
+                ene.enemigos(jugador, word.obstaculos_tiles, posicion_pantalla)
+                ene.dibujar(ventana)
+
+        #Dibujar arma
+        pistola.dibujar(ventana)
+
+        #Dibujar balas
+        for bala in grupo_balas:
+            bala.dibujar(ventana)
+
+
+        #Dibujar vida
+        vida_jugador()
+        
+        #dibujar texto_daño
+        grupo_damage_text.draw(ventana)
+        dibujar_score(f"Score: {jugador.score}", fuentes, color=(255,255,0), x=700, y=5)
+
+        #nivel
+        dibujar_score(f"Nivel:" + str(nivel), fuentes, constantes.AMARILLO, constantes.ANCHO_VENTANA / 2, y=5 )
+
 
     #Dibujar los items en pantalla
     grupo_items.draw(ventana)
 
-
-
-
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False 
