@@ -6,7 +6,7 @@ Rayner Alexander Mora Poueriet
 24-EISN-2-004
 ## Proyecto
 
-# SHOOT — Top-Down Shooter/ Inpirado en Gaunlet
+# SHOOT — Top-Down Shooter/ Inpirado en Gauntlet 
 
 Un videojuego de acción en vista superior (top-down) desarrollado en Python con Pygame, donde el jugador debe sobrevivir eliminando enemigos mientras recolecta recursos en un entorno de salas.
 
